@@ -4,3 +4,234 @@
 *:after {
   box-sizing: border-box;
 }
+
+body{
+  background-image: url("/images/site/checkerboard.jpg") ;
+  margin: 0;
+  height: 100vh;
+  background-size:initial;
+  background-repeat: repeat;
+  background-position: center;
+}
+
+#wrapper{
+  background-color: white;
+  margin: auto;
+  margin-top: 1rem;
+  border: solid 10px #25BDDC;
+  border-radius: 10px;
+  width: 75%;
+}
+
+#top-header{
+  display: flex;
+  justify-content: space-between;
+  padding: 1rem;
+}
+
+.siteName a{
+  color: rgb(39, 39, 39);
+  text-decoration: none;
+  font-size: 2rem;
+}
+
+#tools a{
+  color: rgb(39, 39, 39);
+  text-decoration: none;
+  font-family: Verdana, Geneva, Tahoma, sans-serif;
+}
+
+nav {
+  display: flex;
+  background-color: rgb(39, 39, 39);
+  margin: 1rem;
+  
+}
+
+nav ul {
+  display: flex;
+  justify-content: space-around;
+  padding: 1rem;
+  margin: 0;
+  list-style-type: none;
+  width: 100%;
+}
+
+nav li {
+  margin: 0 10px;
+  text-decoration: none;
+  color: aliceblue;
+}
+
+h1{
+  margin-left: 1rem;
+}
+
+h2{
+  font-weight: bold;
+}
+
+#hero-div{
+  display: flex;
+  text-align: center;
+  margin-bottom: 1rem;
+}
+
+#hero-image {
+  width: 100%;
+  position: relative;
+  max-width: 100%;
+}
+
+#hero-image img{
+  width: 70%;
+  height: auto;
+  margin-right: 3rem;
+  padding-right: 3rem;
+}
+
+#hero-message {
+  color: #25BDDC;
+  width: 25%;
+  position: absolute;
+  top: 30px;
+  left: 30px;
+  z-index: 2;
+  background-color: rgba(255, 255, 255, 0.6);
+  padding: 1.5rem;
+  padding-top: 0;
+  font-size: 1.5rem;
+  text-align: left;
+}
+
+#hero-message p{
+  margin: 0;
+}
+
+#hero-message button {
+  background-color: #25BDDC;
+  color: rgb(39, 39, 39);
+  text-decoration: none;
+  padding: 1rem;
+  box-shadow: 3px 3px 5px 0 rgba(39, 39, 39, 0.8);
+  font-weight: bold;
+  margin-top: 1rem;
+  border-color: #25BDDC;
+  width: 90%;
+}
+
+.product-details{
+  display: flex;
+  width: 100%;
+  justify-content: space-around;
+}
+
+.product-features, .product-reviews{
+  width: 100%;
+}
+
+.product-features h2, .product-reviews h2{
+  font-weight: bold;
+  margin: 1rem;
+}
+
+.cards-top, .cards-bottom{
+  display: flex;
+}
+.card{
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  margin: 1rem;
+  justify-content: center;
+  align-items: center;
+}
+
+.card-image{
+  background-color: #25BDDC;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  padding: .5rem;
+  box-shadow: 1px 1px rgb(39, 39, 39);
+}
+
+.card-image img{
+  height: 100%;
+  width: auto;
+}
+
+.card a{
+  text-align: center;
+  font-size: 1.3rem;
+}
+
+.product-reviews ul{
+  margin: 1rem;
+}
+.product-reviews li{
+  padding: 1rem;
+  font-size: 1.5rem;
+}
+
+@media only screen and (max-width: 1200px) {
+  #wrapper {
+    width: 85%;
+  }
+
+  #hero-message, #hero-message h2 {
+    font-size: .8rem;
+  }
+  
+  #hero-message button{
+    font-size: .8rem;
+    padding: .2rem;
+  }
+
+  .product-reviews li{
+    font-size: 1rem;
+  }
+
+  .product-details a{
+    font-size: 1rem;
+  }
+}
+
+@media only screen and (max-width: 750px) {
+  body{
+    background-image: none;
+  }
+
+  #wrapper {
+    width: 100%;
+    border: none;
+    margin: 0;
+    padding: 0;
+  }
+
+  h1, .siteName a{
+    font-size: 1.5rem;
+  }
+
+  #hero-image {
+    width: 100%;
+    margin-left: 1rem;
+  }
+  
+  #hero-image img{
+    width: 100%;
+    margin-right: 0rem;
+    padding-right: 0rem;
+  }
+  
+  #hero-message {
+    width: 40%;
+    top: 10px;
+    left: 0;
+  }
+
+  .product-details{
+    flex-direction: column-reverse;
+  }
+
+}
