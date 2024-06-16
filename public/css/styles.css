@@ -105,8 +105,9 @@ h2{
   text-align: left;
 }
 
-#hero-message p{
+#hero-message h3{
   margin: 0;
+  font-size: 1.5rem;
 }
 
 #hero-message button {
@@ -180,10 +181,14 @@ h2{
     width: 85%;
   }
 
-  #hero-message, #hero-message h2 {
+  #hero-message, #hero-message h3{
     font-size: .8rem;
   }
   
+  #hero-message h2 {
+    font-size: 1rem;
+  }
+
   #hero-message button{
     font-size: .8rem;
     padding: .2rem;
@@ -201,6 +206,10 @@ h2{
 @media only screen and (max-width: 750px) {
   body{
     background-image: none;
+  }
+
+  nav ul li{
+    font-size: 1rem;
   }
 
   #wrapper {
