@@ -57,7 +57,7 @@ nav ul {
   width: 100%;
 }
 
-nav li {
+nav li a {
   margin: 0 10px;
   text-decoration: none;
   color: aliceblue;
@@ -208,8 +208,8 @@ h2{
     background-image: none;
   }
 
-  nav ul li{
-    font-size: 1rem;
+  nav ul li a{
+    font-size: .9rem;
   }
 
   #wrapper {
