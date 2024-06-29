@@ -66,12 +66,10 @@ Util.buildVehicleDetails = async function(data){
   if(data.length > 0){
     grid = '<div id="details-display">'
     data.forEach(vehicle => { 
-      grid += '<div id="details-img>'
-      grid +=  '<a href="../../inv/detail/'+ vehicle.inv_id 
-      + '" title="View ' + vehicle.inv_year + vehicle.inv_model + ' '+ vehicle.inv_make
-      + 'details"><img src="' + vehicle.inv_image
-      +'" alt="Image of '+ vehicle.inv_make + ' ' + vehicle.inv_model 
-      +' on CSE Motors" /></a>'
+      grid +='<div class="details-img">'      
+      grid +=  '<img class="img-detail" src="' + vehicle.inv_image
+      +'" alt="Car Model: '+ vehicle.inv_make + ' ' + vehicle.inv_model 
+      +' on CSE Motors"/></div>'      
       grid += '<div class="details-data">'
       grid += '<h2>'
       grid += '<a href="../../inv/detail/' + vehicle.inv_id +'" title="View ' 
@@ -82,8 +80,7 @@ Util.buildVehicleDetails = async function(data){
       + new Intl.NumberFormat('en-US').format(vehicle.inv_price) + '</span>'
       grid += '<p><strong>Description:</strong>' + ' ' + vehicle.inv_description + '</p>'
       grid += '<p><strong>Color:</strong>' + ' ' + vehicle.inv_color + '</p>'
-      grid += '<p><strong>Miles:</strong>' + ' ' + vehicle.inv_miles + '</p>'
-      grid += '</div>'
+      grid += '<p><strong>Miles:</strong>' + ' ' + new Intl.NumberFormat('en-US').format(vehicle.inv_miles) + '</p>'
       grid += '</div>'
     })
     grid += '</div>'

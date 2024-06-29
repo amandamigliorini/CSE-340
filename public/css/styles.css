@@ -230,6 +230,63 @@ ul#inv-display{
   padding: .5rem;
 }
 
+#details-display{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(37, 189, 220, 0.3);
+  margin: 1rem;
+  border: 5px solid aliceblue;
+  border-radius: 5px;
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+.details-img{
+  width: 100%;
+  text-align: center;
+}
+
+.img-detail{
+  margin: 1rem;
+  border-radius: 5px;
+  box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.5);
+}
+
+.details-data{
+  margin: 0 0rem 0rem 2rem;
+}
+
+.details-data a{
+  text-decoration: none;
+  color: black;
+}
+
+.details-data h2{
+  font-size: 2.5rem;
+  padding: .5rem;
+  padding-top: 0;
+}
+
+.details-data span{
+  font-size: 1.5rem;
+  padding: .5rem;
+  background-color: black;
+  color: aliceblue;
+}
+
+.details-data p{
+  padding: .5rem;
+  font-size: 1.3rem;
+}
+
+.details-data p:nth-child(3), 
+.details-data p:nth-child(5){
+    background-color: aliceblue; 
+}
+
+#error-wrapper, #error-img, #error-img img{
+  width: 100%;
+}
 
 /********************************************
                 responsive code 
@@ -278,7 +335,24 @@ ul#inv-display{
     width: 90%;
     display: block;
   }
+
+  #details-display{
+    display: block;
+    
+  }
   
+  .img-detail{
+    width: 90%;
+    height: auto;
+  }
+  
+  .details-data{
+    margin: 0;
+  }
+
+  .details-data span{
+    margin-left: .5rem;
+  }
 
 
 }

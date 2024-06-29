@@ -34,7 +34,6 @@ async function getVehicleDetails(inv_id) {
        WHERE inv_id = $1`,
       [inv_id]
     )
-    console.table(data.rows);
     return data.rows
   } catch (error) {
     console.error("getclassificationsbyid error " + error)
