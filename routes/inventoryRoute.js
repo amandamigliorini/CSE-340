@@ -13,6 +13,10 @@ router.get("/detail/:invId", utilities.handleErrors(invController.buildByInvId))
 router.get("/detail/", utilities.handleErrors(invController.buildByInvId))
 router.get("/add-classification/", utilities.handleErrors(invController.buildAddClassification))
 router.get("/add-inventory/", utilities.handleErrors(invController.buildAddInventory))
+router.get("/getInventory/:classification_id", utilities.handleErrors(invController.getInventoryJSON))
+//Edit Inventory route
+router.get("/edit/:invId", utilities.handleErrors(invController.editInventoryView))
+router.get("/delete/:invId", utilities.handleErrors(invController.deleteView))
 
 // Process the classification data
 router.post(
@@ -30,5 +34,14 @@ router.post(
   utilities.handleErrors(invController.manageInventory)
 )
 
+//update Inventory route
+router.post("/update", 
+  invValidate.newInventoryRules(),
+  invValidate.checkUpdateData,
+  utilities.handleErrors(invController.updateInventory))
+
+//delete Inventory route
+router.post("/delete", 
+  utilities.handleErrors(invController.deleteItem))
 
 module.exports = router;
