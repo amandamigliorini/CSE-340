@@ -48,6 +48,12 @@ app.use(cookieParser())
 //unit 5, login process activity
 app.use(utilities.checkJWTToken)
 
+//middleware to get user information
+app.use((req, res, next) => {
+  res.locals.user = req.session.user || null;
+  next();
+});
+
 /* ***********************
  * Routes
  *************************/

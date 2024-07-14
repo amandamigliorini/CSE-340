@@ -124,7 +124,9 @@ async function deleteInventoryItem(inv_id) {
     const data = await pool.query(sql, [
       inv_id
     ])
-    return data.rows[0]
+    if (!data.rows[0]){
+      return true
+    }
   } catch (error) {
     console.error("model error: " + error)
   }
