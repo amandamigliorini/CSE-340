@@ -1,12 +1,22 @@
 <%# This view will consist of three distinct sections: 
 A content heading, a message, and the inventory items display. %>
 
-<% if (title) { %>
-    <h1><%= title %></h1>
-    <% } else {
-      res.redirect('/')
-    } %>
+<div class="detail-title" data-id="<%= inv_id %>">
+  <% if (title) { %>
+      <h1><%= title %></h1>
+  <% } else { %>
+      <%= res.redirect('/') %>  
+  <% } %>
+  
+  <% if (typeof userId !== 'undefined' && userId !== null) { %>
+    <div class="add-favorite <% if (isFavorite) { %>added-favorite<% } %>">
+      <a href="#" id="favorite-add">&#10084;</a>
+    </div>
+  <% } %>
+</div>
 
 <%- messages() %>
 
 <%- grid %>
+
+<script src="../../js/inv-favorite.js"></script>

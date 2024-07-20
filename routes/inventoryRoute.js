@@ -17,6 +17,8 @@ router.get("/getInventory/:classification_id", utilities.checkAuthorization, uti
 //Edit Inventory route
 router.get("/edit/:invId", utilities.checkAuthorization, utilities.handleErrors(invController.editInventoryView))
 router.get("/delete/:invId", utilities.checkAuthorization, utilities.handleErrors(invController.deleteView))
+router.get('/favorites', utilities.handleErrors(invController.buildFavorites))
+
 
 // Process the classification data
 router.post(
@@ -43,5 +45,11 @@ router.post("/update",
 //delete Inventory route
 router.post("/delete", 
   utilities.handleErrors(invController.deleteItem))
+
+  //add and remove from favorites route, note route
+router.post('/favorites/handleFavorite/:invId', utilities.handleErrors(invController.handleFavorite))
+router.post('/favorites/updateFavoriteNote', utilities.handleErrors(invController.updateFavoriteNote))
+
+
 
 module.exports = router;

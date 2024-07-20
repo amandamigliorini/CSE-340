@@ -24,12 +24,21 @@ invCont.buildByInvId = async function (req, res, next) {
   const inv_id = req.params.invId
   const data = await invModel.getVehicleDetails(inv_id)
   const grid = await utilities.buildVehicleDetails(data)
+  let userId = null;
+  let isFavorite = null;
+  if (req.session.user) {
+    userId = req.session.user.userId;
+    isFavorite = await invModel.checkIfIsFavorite(userId, inv_id);
+  }
   let nav = await utilities.getNav()
   const className = `${data[0].inv_year} ${data[0].inv_make} ${data[0].inv_model}`
   res.render("./inventory/details", {
     title: className,
     nav,
     grid,
+    isFavorite,
+    inv_id,
+    userId
   })
 }
 
@@ -268,6 +277,68 @@ invCont.deleteItem = async function (req, res, next) {
   } else {
     req.flash("notice", "Sorry, the delete failed.")
     res.redirect(`/inv/`)
+  }
+}
+
+/* ****************************************
+*  Deliver Favorites view
+* *************************************** */
+invCont.buildFavorites = async function (req, res, next) {
+  let nav = await utilities.getNav()
+  const userId = req.session.user.userId;
+  const favoriteList = await invModel.getFavoriteItems(userId)
+  const data = await Promise.all(favoriteList.map(async (item) => {
+    const inv_id = item.inv_id;
+    const vehicleData = await invModel.getVehicleDetails(inv_id);
+    return {
+      fav_id: item.fav_id,
+      inv_id: inv_id,
+      fav_item_note: item.fav_item_note,
+      vehicleData: vehicleData
+    };
+  }));
+  const grid = await utilities.buildFavoriteGrid(data)
+  res.render("inventory/favorites", {
+    title: "Favorites",
+    nav,
+    errors: null,
+    userId,
+    grid,
+    
+  })
+}
+
+
+invCont.handleFavorite = async function (req, res, next){
+  try {
+    const inv_id = req.params.invId;
+    console.log('inv_id received:', inv_id)
+    const userId = req.session.user.userId;
+    const isFavorite = await invModel.checkIfIsFavorite(userId, inv_id);
+
+    if (!isFavorite) {
+      await invModel.addToFavorites(userId, inv_id);
+      req.flash("notice", `The item was successfully added to favorites.`)
+      
+    } else {
+      await invModel.removeFromFavorites(userId, inv_id);
+      req.flash("notice", `The item was successfully removed from favorites.`)
+    }
+
+    res.redirect(`/inv/detail/${inv_id}`)
+  } catch (error) {
+    console.error('Error handling favorites:', error);
+    res.redirect(`/inv/detail/${inv_id}`);
+  }
+};
+
+invCont.updateFavoriteNote = async function (req, res, next) {
+  try {
+    const { fav_id, inv_id, fav_inv_note } = req.body;
+    await invModel.updateFavoriteNote(fav_id, inv_id, fav_inv_note);
+    res.redirect('/inv/favorites');
+  } catch (error) {
+    next(error);
   }
 }
 

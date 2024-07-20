@@ -132,4 +132,99 @@ async function deleteInventoryItem(inv_id) {
   }
 }
 
-module.exports = {getClassifications, getInventoryByClassificationId, getVehicleDetails, addClassification, checkExistingClassification, addNewVehicle, updateInventory, deleteInventoryItem};
+async function checkIfIsFavorite(account_id, inv_id) {
+  try {
+    const result = await pool.query(
+      'SELECT FROM public.favorite_items fi JOIN public.favorites f ON fi.fav_id = f.fav_id where f.account_id= $1 AND FI.INV_ID = $2',
+      [account_id, inv_id])
+      console.log(result.rows)
+    return result.rows[0]
+  } catch (error) {
+    return new Error("Item not Found")
+  }
+}
+
+async function addToFavorites(account_id, inv_id) {
+  try {
+    // Check if the favorites list exists
+    const resultFavId = await pool.query(
+      'SELECT fav_id FROM public.favorites WHERE account_id = $1',
+      [account_id]
+    );
+
+    let favId;
+
+    // If favorites list does not exist, create it
+    if (resultFavId.rows.length === 0) {
+      const resultFavListCreate = await pool.query(
+        'INSERT INTO public.favorites (account_id) VALUES ($1) RETURNING fav_id',
+        [account_id]
+      );
+      favId = resultFavListCreate.rows[0].fav_id;
+    } else {
+      favId = resultFavId.rows[0].fav_id;
+    }
+
+    // Add the item to the favorites list
+    const result = await pool.query(
+      'INSERT INTO public.favorite_items (fav_id, inv_id, fav_item_note) VALUES ($1, $2, $3) RETURNING *',
+      [favId, inv_id, 'Insert a personal note']
+    );
+
+    return result.rows[0];
+  } catch (error) {
+    console.error('Error adding to favorites:', error);
+    throw new Error('Error adding to favorites:' + error.message);
+  }
+}
+
+async function removeFromFavorites(account_id, inv_id) {
+  try {
+    // Get the fav_id for the account
+    const resultFavId = await pool.query(
+      'SELECT fav_id FROM public.favorites WHERE account_id = $1',
+      [account_id]
+    );
+
+    if (resultFavId.rows.length === 0) {
+      throw new Error("Favorites list not found");
+    }
+
+    const favId = resultFavId.rows[0].fav_id;
+
+    // Remove the item from the favorites list
+    const result = await pool.query(
+      'DELETE FROM public.favorite_items WHERE fav_id = $1 AND inv_id = $2 RETURNING *',
+      [favId, inv_id]
+    );
+
+    return result.rows[0];
+  } catch (error) {
+    console.error('Error removing from favorites:', error);
+    throw new Error('Error removing from favorites:' + error.message);
+  }
+}
+
+async function getFavoriteItems(account_id) {
+  try {
+    const result = await pool.query(
+      'SELECT fi.fav_id, inv_id, fav_item_note FROM public.favorite_items fi JOIN public.favorites f ON fi.fav_id = f.fav_id where f.account_id= $1',
+      [account_id])
+    return result.rows
+  } catch (error) {
+    return new Error("Item not Found")
+  }
+}
+
+async function updateFavoriteNote(fav_id, inv_id, fav_inv_note) {
+  try {
+    const result = await pool.query(
+      'UPDATE favorite_items SET fav_item_note = $1 WHERE FAV_ID = $2 AND inv_id = $3',
+      [fav_inv_note, fav_id, inv_id])
+      return result
+  } catch (error) {
+    return new Error("Item not updated")
+  }
+}
+
+module.exports = {getClassifications, getInventoryByClassificationId, getVehicleDetails, addClassification, checkExistingClassification, addNewVehicle, updateInventory, deleteInventoryItem, checkIfIsFavorite, addToFavorites, removeFromFavorites, getFavoriteItems, updateFavoriteNote};

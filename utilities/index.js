@@ -157,7 +157,49 @@ Util.checkJWTToken = (req, res, next) => {
     return res.redirect("/account/login")
   }
  }
- 
+
+ Util.buildFavoriteGrid = async function(data){
+  let grid = '';
+  console.log(data)
+  if(data.length > 0){
+    grid = '<ul id="inv-display">'
+    data.forEach(vehicle => {
+      const vehicleData = vehicle.vehicleData[0] 
+      grid += '<li>'
+      grid +=  '<a href="../../inv/detail/'+ vehicleData.inv_id 
+      + '" title="View ' + vehicleData.inv_make + ' '+ vehicleData.inv_model 
+      + 'details"><img src="' + vehicleData.inv_thumbnail 
+      +'" alt="Image of '+ vehicleData.inv_make + ' ' + vehicleData.inv_model 
+      +' on CSE Motors" /></a>'
+      grid += '<div class="namePrice">'
+      grid += '<hr />'
+      grid += '<h2>'
+      grid += '<a href="../../inv/detail/' + vehicleData.inv_id +'" title="View ' 
+      + vehicleData.inv_make + ' ' + vehicleData.inv_model + ' details">' 
+      + vehicleData.inv_make + ' ' + vehicleData.inv_model + '</a>'
+      grid += '</h2>'
+      grid += '<span>$' 
+      + new Intl.NumberFormat('en-US').format(vehicleData.inv_price) + '</span>'
+      grid += '<form class="note-form" action="favorites/updateFavoriteNote" method="POST">';
+      grid += '<label class="favorite-label">Note';
+      grid += '<textarea name="fav_inv_note" id="favInvNote' + vehicle.fav_id + '" rows="8" cols="50" required minlength="10" maxlength="100">'
+        + vehicle.fav_item_note + '</textarea>';
+      grid += '</label>';
+      grid += '<input type="hidden" name="fav_id" value="' + vehicle.fav_id + '">';
+      grid += '<input type="hidden" name="inv_id" value="' + vehicle.inv_id + '">';
+      grid += '<button type="submit">Save</button>';
+      grid += '</form>';
+      grid += '</div>'
+      grid += '</li>'
+    })
+    grid += '</ul>'
+  } else { 
+    grid += '<p class="notice">Sorry, no vehicle found on favorites.</p>'
+  }
+  return grid
+
+
+ }
 /* ****************************************
  * Middleware For Handling Errors
  * Wrap other function in this for 
