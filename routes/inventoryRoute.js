@@ -48,7 +48,10 @@ router.post("/delete",
 
   //add and remove from favorites route, note route
 router.post('/favorites/handleFavorite/:invId', utilities.handleErrors(invController.handleFavorite))
-router.post('/favorites/updateFavoriteNote', utilities.handleErrors(invController.updateFavoriteNote))
+router.post('/favorites/updateFavoriteNote', 
+  invValidate.newNoteRules(),
+  invValidate.checkNewNote,
+  utilities.handleErrors(invController.updateFavoriteNote))
 
 
 

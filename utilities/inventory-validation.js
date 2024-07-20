@@ -239,4 +239,50 @@ validate.checkClassData = async (req, res, next) => {
       ]
     };
 
+    validate.newNoteRules = () => {
+      return [   
+  
+        body('fav_inv_note')
+        .trim()
+        .notEmpty()
+        .isLength({ min: 10, max: 100 })
+        .withMessage('Note must be between 10 and 300 characters.'),
+
+      ]
+    }
+
+    validate.checkNewNote = async (req, res, next) => {
+      let errors = []
+      errors = validationResult(req)
+      if (!errors.isEmpty()) {
+        let nav = await utilities.getNav();
+        const userId = req.session.user.userId;
+        const favoriteList = await invModel.getFavoriteItems(userId);
+        
+        const data = await Promise.all(favoriteList.map(async (item) => {
+          const inv_id = item.inv_id;
+          const vehicleData = await invModel.getVehicleDetails(inv_id);
+          return {
+            fav_id: item.fav_id,
+            inv_id: inv_id,
+            fav_item_note: item.fav_item_note,
+            vehicleData: vehicleData
+          };
+        }));
+    
+        const grid = await utilities.buildFavoriteGrid(data);
+    
+        return res.render("inventory/favorites", {
+          title: "Favorites",
+          nav,
+          errors,
+          userId,
+          grid,
+        });
+      }
+    
+      next();
+    };
+
+
 module.exports = validate

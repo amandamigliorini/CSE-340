@@ -182,7 +182,7 @@ Util.checkJWTToken = (req, res, next) => {
       + new Intl.NumberFormat('en-US').format(vehicleData.inv_price) + '</span>'
       grid += '<form class="note-form" action="favorites/updateFavoriteNote" method="POST">';
       grid += '<label class="favorite-label">Note';
-      grid += '<textarea name="fav_inv_note" id="favInvNote' + vehicle.fav_id + '" rows="8" cols="50" required minlength="10" maxlength="100">'
+      grid += '<textarea name="fav_inv_note" id="favInvNote' + vehicle.fav_id + '" rows="8" cols="50" required minlength="10" maxlength="300">'
         + vehicle.fav_item_note + '</textarea>';
       grid += '</label>';
       grid += '<input type="hidden" name="fav_id" value="' + vehicle.fav_id + '">';
